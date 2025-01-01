@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   ChartBarIcon,
   CpuChipIcon,
@@ -33,13 +34,27 @@ const portfolio = [
   {
     title: "Content Generation AI",
     description: "An AI tool that helps businesses create engaging social media content 40% faster.",
-    image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800&auto=format&fit=crop&q=60",
+    image: "/images/ai-content.jpg",
+    tags: ["AI", "Content", "Automation"]
   },
   {
     title: "Marketing Analytics",
     description: "AI-powered analytics dashboard for data-driven marketing decisions.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=60",
+    image: "/images/ai-analytics.jpg",
+    tags: ["Analytics", "Dashboard", "AI"]
   },
+  {
+    title: "Process Automation",
+    description: "Automated workflow system that reduced manual tasks by 75%.",
+    image: "/images/ai-automation.jpg",
+    tags: ["Automation", "Workflow", "AI"]
+  },
+  {
+    title: "Customer Service AI",
+    description: "24/7 AI customer service bot with 95% satisfaction rate.",
+    image: "/images/ai-customer-service.jpg",
+    tags: ["AI", "Support", "Chat"]
+  }
 ];
 
 export default function Home() {
@@ -52,6 +67,15 @@ export default function Home() {
     <main className="min-h-screen bg-black antialiased">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center text-white pt-24">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/hero-bg.jpg"
+            alt="AI Technology Background"
+            fill
+            className="object-cover opacity-20"
+            priority
+          />
+        </div>
         <div className="relative z-10 max-w-[1000px] mx-auto px-6 sm:px-8">
           <motion.div
             initial="hidden"
@@ -98,18 +122,34 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="py-32 bg-black border-t border-white/10">
         <div className="max-w-[1000px] mx-auto px-6 sm:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeIn}
-            className="max-w-2xl mx-auto"
-          >
-            <h2 className="text-3xl font-medium text-white mb-8 tracking-tight">About Me</h2>
-            <p className="text-xl text-gray-300 leading-relaxed">
-              I&apos;m Christopher Celaya, a passionate developer building AI solutions for small businesses. As a one-person team, I specialize in custom AI applications tailored to your needs—whether it&apos;s automating workflows or improving marketing strategies.
-            </p>
-          </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              className="relative h-[400px] md:h-[500px] rounded-lg overflow-hidden"
+            >
+              <Image
+                src="/images/profile.jpg"
+                alt="Christopher Celaya"
+                fill
+                className="object-cover"
+              />
+            </motion.div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeIn}
+              className="space-y-6"
+            >
+              <h2 className="text-3xl font-medium text-white tracking-tight">About Me</h2>
+              <p className="text-xl text-gray-300 leading-relaxed">
+                I&apos;m Christopher Celaya, a passionate developer building AI solutions for small businesses. As a one-person team, I specialize in custom AI applications tailored to your needs—whether it&apos;s automating workflows or improving marketing strategies.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -131,8 +171,16 @@ export default function Home() {
                 viewport={{ once: true }}
                 variants={fadeIn}
                 transition={{ delay: index * 0.1 }}
-                className="group p-8 border border-white/10 hover:border-white/20 transition-all duration-300"
+                className="group relative p-8 border border-white/10 hover:border-white/20 transition-all duration-300"
               >
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300">
+                  <Image
+                    src={`/images/service-${index + 1}.jpg`}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <service.icon className="h-8 w-8 text-white mb-8" />
                 <h3 className="text-lg font-medium text-white mb-4">{service.title}</h3>
                 <p className="text-gray-400 mb-8 leading-relaxed">{service.description}</p>
@@ -167,13 +215,34 @@ export default function Home() {
                 viewport={{ once: true }}
                 variants={fadeIn}
                 transition={{ delay: index * 0.1 }}
-                className="group p-8 border border-white/10 hover:border-white/20 transition-all duration-300"
+                className="group relative overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-300"
               >
-                <h3 className="text-lg font-medium text-white mb-4">{project.title}</h3>
-                <p className="text-gray-400 mb-8 leading-relaxed">{project.description}</p>
-                <div className="inline-flex items-center text-sm text-white hover:text-gray-300 transition-colors group-hover:translate-x-1 duration-300">
-                  <span className="mr-2">View Project</span>
-                  <ArrowRightIcon className="h-4 w-4" />
+                <div className="relative h-64 overflow-hidden">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/50" />
+                </div>
+                <div className="p-8">
+                  <h3 className="text-lg font-medium text-white mb-4">{project.title}</h3>
+                  <p className="text-gray-400 mb-6 leading-relaxed">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {project.tags.map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 text-xs text-white/70 border border-white/10 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="inline-flex items-center text-sm text-white hover:text-gray-300 transition-colors group-hover:translate-x-1 duration-300">
+                    <span className="mr-2">View Project</span>
+                    <ArrowRightIcon className="h-4 w-4" />
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -182,8 +251,16 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 bg-black border-t border-white/10">
-        <div className="max-w-[1000px] mx-auto px-6 sm:px-8">
+      <section id="contact" className="relative py-32 bg-black border-t border-white/10">
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/images/contact-bg.jpg"
+            alt="Contact Background"
+            fill
+            className="object-cover opacity-10"
+          />
+        </div>
+        <div className="relative z-10 max-w-[1000px] mx-auto px-6 sm:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
             <motion.div
               initial="hidden"
@@ -192,19 +269,19 @@ export default function Home() {
               variants={fadeIn}
               className="space-y-8"
             >
-              <h2 className="text-3xl font-medium text-white tracking-tight">Let&apos;s Discuss Your AI Needs</h2>
+              <h2 className="text-3xl font-medium text-white tracking-tight">Let&apos;s Discuss Your Business Needs</h2>
               <p className="text-xl text-gray-400 leading-relaxed max-w-md">
-                Ready to transform your business with AI? Let&apos;s discuss how our solutions can drive your success.
+                Ready to transform your business? Let&apos;s discuss how our solutions can drive your success.
               </p>
               <div className="space-y-6 pt-4">
                 <p className="flex items-center gap-4 text-lg text-gray-300">
-                  <span className="text-2xl" aria-label="Location">📍</span> Silicon Valley, CA
+                  <span className="text-2xl" aria-label="Location">📍</span> El Paso, TX
                 </p>
                 <p className="flex items-center gap-4 text-lg text-gray-300">
-                  <span className="text-2xl" aria-label="Phone">📞</span> (555) 123-4567
+                  <span className="text-2xl" aria-label="Phone">📞</span> (915) 270-0237
                 </p>
                 <p className="flex items-center gap-4 text-lg text-gray-300">
-                  <span className="text-2xl" aria-label="Email">✉️</span> contact@celaya.ai
+                  <span className="text-2xl" aria-label="Email">✉️</span> chris@chriscelaya.com
                 </p>
               </div>
             </motion.div>

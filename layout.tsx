@@ -1,5 +1,6 @@
-import React from "react";
-import type { Metadata } from "next";
+'use client';
+
+import React, { useEffect, useState } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navigation from "./components/Navigation";
@@ -14,23 +15,25 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "C-Solutions | Enterprise AI Solutions",
-  description: "Transform your business with enterprise-grade AI solutions. Custom AI development, integration, and consulting services.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
-        <Navigation />
-        {children}
+        {mounted && <Navigation />}
+        {mounted ? children : null}
       </body>
     </html>
   );
